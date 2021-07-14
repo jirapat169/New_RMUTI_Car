@@ -27,7 +27,9 @@ const Admin = (props) => {
           //   [...val.data.result.result].filter((e) => e.mystep == "1")
           // );
           setListRequest(
-            [...val.data.result.result].filter((e) => parseInt(e.mystep) >= 1 && e.in_korat != "true")
+            [...val.data.result.result].filter(
+              (e) => parseInt(e.mystep) >= 2 && e.in_korat != "true"
+            )
           );
         } else {
           setListRequest([]);
@@ -104,16 +106,16 @@ const Admin = (props) => {
                     {e.mystep == "0"
                       ? "รอการตรวจสอบจากเจ้าหน้าที่"
                       : e.mystep == "5"
-                        ? "ยกเลิกการจอง"
-                        : e.mystep == "1"
-                          ? "รอการอนุมัติจากผู้อำนวยการกองกลาง"
-                          : e.mystep == "2"
-                            ? "รอการอนุมัติจากผู้มีอำนาจสั่งใช้ยานพาหนะ"
-                            : e.mystep == "3"
-                              ? "ผ่านอนุมัติ"
-                              : e.mystep == "4"
-                                ? "ส่งคืนยานพาหนะสำเร็จ"
-                                : e.mystep}{" "}
+                      ? "ยกเลิกการจอง"
+                      : e.mystep == "1"
+                      ? "รอการอนุมัติจากผู้อำนวยการกองกลาง"
+                      : e.mystep == "2"
+                      ? "รอการอนุมัติจากผู้มีอำนาจสั่งใช้ยานพาหนะ"
+                      : e.mystep == "3"
+                      ? "ผ่านอนุมัติ"
+                      : e.mystep == "4"
+                      ? "ส่งคืนยานพาหนะสำเร็จ"
+                      : e.mystep}{" "}
                   </td>
                   <td style={{ verticalAlign: "middle" }}>
                     <button

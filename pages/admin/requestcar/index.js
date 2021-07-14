@@ -71,7 +71,7 @@ const Admin = (props) => {
         console.log(val.data);
         if (val.data.result.rowCount > 0) {
           setListRequest(val.data.result.result);
-          console.log(val.data.result.result)
+          console.log(val.data.result.result);
         } else {
           setListRequest([]);
         }
@@ -195,16 +195,16 @@ const Admin = (props) => {
                     {e.mystep == "0"
                       ? "รอการตรวจสอบจากเจ้าหน้าที่"
                       : e.mystep == "5"
-                        ? "ยกเลิกการจอง"
-                        : e.mystep == "1"
-                          ? "รอการอนุมัติจากผู้อำนวยการกองกลาง"
-                          : e.mystep == "2"
-                            ? "รอการอนุมัติจากผู้มีอำนาจสั่งใช้ยานพาหนะ"
-                            : e.mystep == "3"
-                              ? "ผ่านอนุมัติ"
-                              : e.mystep == "4"
-                                ? "ส่งคืนยานพาหนะสำเร็จ"
-                                : e.mystep}{" "}
+                      ? "ยกเลิกการจอง"
+                      : e.mystep == "1"
+                      ? "รอการอนุมัติจากผู้อำนวยการกองกลาง"
+                      : e.mystep == "2"
+                      ? "รอการอนุมัติจากผู้มีอำนาจสั่งใช้ยานพาหนะ"
+                      : e.mystep == "3"
+                      ? "ผ่านอนุมัติ"
+                      : e.mystep == "4"
+                      ? "ส่งคืนยานพาหนะสำเร็จ"
+                      : e.mystep}{" "}
                   </td>
                   <td style={{ verticalAlign: "middle" }}>
                     <button
@@ -753,18 +753,21 @@ const Admin = (props) => {
                             fontSize: 18,
                           },
                           {
-                            text: `วันที่  ${viewDetail.timestamp.split(" ")[0].split("-")[2]
-                              }  เดือน  ${Month()[
-                              parseInt(
-                                viewDetail.timestamp
-                                  .split(" ")[0]
-                                  .split("-")[1]
-                              ) - 1
+                            text: `วันที่  ${
+                              viewDetail.timestamp.split(" ")[0].split("-")[2]
+                            }  เดือน  ${
+                              Month()[
+                                parseInt(
+                                  viewDetail.timestamp
+                                    .split(" ")[0]
+                                    .split("-")[1]
+                                ) - 1
                               ]
-                              }  พ.ศ.${parseInt(
+                            }  พ.ศ.${
+                              parseInt(
                                 viewDetail.timestamp.split(" ")[0].split("-")[0]
                               ) + 543
-                              }`,
+                            }`,
                             alignment: "right",
                             margin: [0, 0, 0, 14],
                           },
@@ -826,8 +829,9 @@ const Admin = (props) => {
                                 bold: false,
                               },
                               {
-                                text: `   ${viewDetail.list_teacher.split(",").length
-                                  }   `,
+                                text: `   ${
+                                  viewDetail.list_teacher.split(",").length
+                                }   `,
                                 style: "underline",
                               },
                               {
@@ -845,8 +849,9 @@ const Admin = (props) => {
                                 bold: false,
                               },
                               {
-                                text: `   ${viewDetail.list_student.split(",").length
-                                  }   `,
+                                text: `   ${
+                                  viewDetail.list_student.split(",").length
+                                }   `,
                                 style: "underline",
                               },
                               {
@@ -864,8 +869,9 @@ const Admin = (props) => {
                                 bold: false,
                               },
                               {
-                                text: `   ${viewDetail.date_start.split("-")[2]
-                                  }   `,
+                                text: `   ${
+                                  viewDetail.date_start.split("-")[2]
+                                }   `,
                                 style: "underline",
                               },
                               {
@@ -873,12 +879,13 @@ const Admin = (props) => {
                                 bold: false,
                               },
                               {
-                                text: `   ${Month()[
-                                  parseInt(
-                                    viewDetail.date_start.split("-")[1]
-                                  ) - 1
-                                ]
-                                  }   `,
+                                text: `   ${
+                                  Month()[
+                                    parseInt(
+                                      viewDetail.date_start.split("-")[1]
+                                    ) - 1
+                                  ]
+                                }   `,
                                 style: "underline",
                               },
                               {
@@ -886,10 +893,11 @@ const Admin = (props) => {
                                 bold: false,
                               },
                               {
-                                text: `   ${parseInt(
-                                  viewDetail.date_start.split("-")[0]
-                                ) + 543
-                                  }   `,
+                                text: `   ${
+                                  parseInt(
+                                    viewDetail.date_start.split("-")[0]
+                                  ) + 543
+                                }   `,
                                 style: "underline",
                               },
                               {
@@ -897,8 +905,9 @@ const Admin = (props) => {
                                 bold: false,
                               },
                               {
-                                text: `   ${viewDetail.date_end.split("-")[2]
-                                  }   `,
+                                text: `   ${
+                                  viewDetail.date_end.split("-")[2]
+                                }   `,
                                 style: "underline",
                               },
                               {
@@ -906,12 +915,13 @@ const Admin = (props) => {
                                 bold: false,
                               },
                               {
-                                text: `   ${Month()[
-                                  parseInt(
-                                    viewDetail.date_end.split("-")[1]
-                                  ) - 1
-                                ]
-                                  }   `,
+                                text: `   ${
+                                  Month()[
+                                    parseInt(
+                                      viewDetail.date_end.split("-")[1]
+                                    ) - 1
+                                  ]
+                                }   `,
                                 style: "underline",
                               },
                               {
@@ -919,9 +929,10 @@ const Admin = (props) => {
                                 bold: false,
                               },
                               {
-                                text: `   ${parseInt(viewDetail.date_end.split("-")[0]) +
+                                text: `   ${
+                                  parseInt(viewDetail.date_end.split("-")[0]) +
                                   543
-                                  }   `,
+                                }   `,
                                 style: "underline",
                               },
                             ],
@@ -934,16 +945,92 @@ const Admin = (props) => {
                           },
                           {
                             text: [
-                              { text: `   ${viewDetail.user_request_name}   `, style: "underline", },
+                              {
+                                text: `   ${viewDetail.user_request_name}   `,
+                                style: "underline",
+                              },
                               `   ผู้ขออนุญาต   `,
                             ],
                             alignment: "right",
                             margin: [0, 0, 0, 14],
                           },
                           {
-                            image: `signature_1`,
+                            layout: "lightHorizontalLines",
+                            table: {
+                              widths: ["*", "auto", 100, "*"],
+                              body: [
+                                ["", "", "", ""],
+                                ["", "", "", ""],
+                              ],
+                            },
+                          },
+                          {
+                            layout: "noBorders",
+                            table: {
+                              widths: ["*", "*"],
+                              body: [
+                                [
+                                  {
+                                    image: `signature_1`,
+                                    width: 100,
+                                    alignment: "center",
+                                  },
+                                  {
+                                    image: `signature_2`,
+                                    width: 100,
+                                    alignment: "center",
+                                  },
+                                ],
+                                [
+                                  {
+                                    text: [
+                                      {
+                                        text: `   ${viewDetail.step1_name}   `,
+                                        style: "underline",
+                                      },
+                                      `   ผู้ตรวจสอบ   `,
+                                    ],
+                                    alignment: "center",
+                                  },
+                                  {
+                                    text: [
+                                      {
+                                        text: `   ${viewDetail.step2_name}   `,
+                                        style: "underline",
+                                      },
+                                      `   ผู้ตรวจสอบ   `,
+                                    ],
+                                    alignment: "center",
+                                  },
+                                ],
+                              ],
+                            },
+                          },
+                          {
+                            layout: "lightHorizontalLines",
+                            table: {
+                              widths: ["*", "auto", 100, "*"],
+                              body: [
+                                ["", "", "", ""],
+                                ["", "", "", ""],
+                              ],
+                            },
+                          },
+                          {
+                            image: `user_signature`,
                             width: 100,
-                            alignment: "right",
+                            alignment: "center",
+                          },
+                          {
+                            text: [
+                              {
+                                text: `   ${viewDetail.step3_name}   `,
+                                style: "underline",
+                              },
+                              `   ผู้มีอำนาจสั่งใช้รถ   `,
+                            ],
+                            alignment: "center",
+                            margin: [0, 0, 0, 14],
                           },
                         ],
                         defaultStyle: {
@@ -959,30 +1046,34 @@ const Admin = (props) => {
                           },
                         },
                         images: {
-                          user_signature: `${viewDetail.user_signature
-                            ? `${viewDetail.user_signature}`.length > 0
-                              ? viewDetail.user_signature
+                          user_signature: `${
+                            viewDetail.user_signature
+                              ? `${viewDetail.user_signature}`.length > 0
+                                ? viewDetail.user_signature
+                                : props.env.imageWhite
                               : props.env.imageWhite
-                            : props.env.imageWhite
-                            }`,
-                          signature_1: `${viewDetail.step1_signature
-                            ? `${viewDetail.step1_signature}`.length > 0
-                              ? viewDetail.step1_signature
+                          }`,
+                          signature_1: `${
+                            viewDetail.step1_signature
+                              ? `${viewDetail.step1_signature}`.length > 0
+                                ? viewDetail.step1_signature
+                                : props.env.imageWhite
                               : props.env.imageWhite
-                            : props.env.imageWhite
-                            }`,
-                          signature_2: `${viewDetail.step2_signature
-                            ? `${viewDetail.step2_signature}`.length > 0
-                              ? viewDetail.step2_signature
+                          }`,
+                          signature_2: `${
+                            viewDetail.step2_signature
+                              ? `${viewDetail.step2_signature}`.length > 0
+                                ? viewDetail.step2_signature
+                                : props.env.imageWhite
                               : props.env.imageWhite
-                            : props.env.imageWhite
-                            }`,
-                          signature_3: `${viewDetail.step3_signature
-                            ? `${viewDetail.step3_signature}`.length > 0
-                              ? viewDetail.step3_signature
+                          }`,
+                          signature_3: `${
+                            viewDetail.step3_signature
+                              ? `${viewDetail.step3_signature}`.length > 0
+                                ? viewDetail.step3_signature
+                                : props.env.imageWhite
                               : props.env.imageWhite
-                            : props.env.imageWhite
-                            }`,
+                          }`,
                         },
                       };
                       pdfMake.createPdf(docDefinition).open();
@@ -1000,18 +1091,33 @@ const Admin = (props) => {
 
                   {(() => {
                     if (viewDetail) {
-                      return <>
-                        <p style={{ margin: "unset" }}><b>จุดเริ่มต้น : </b>{JSON.parse(viewDetail.mapdata)['start']}</p>
-                        <p style={{ margin: "unset" }}><b>จุดสิ้นสุด : </b>{JSON.parse(viewDetail.mapdata)['end']}</p>
-                        <p style={{ margin: "unset" }}><b>ระยะทาง : </b>{JSON.parse(viewDetail.mapdata)['distance']}</p>
-                        <p style={{ margin: "unset" }}><b>ระยะเวลาการเดินทาง : </b>{JSON.parse(viewDetail.mapdata)['time']}</p>
-                        <p style={{ margin: "unset" }}><b>ค่าใช้จ่ายโดยประมาณ : </b>{JSON.parse(viewDetail.mapdata)['cost']}</p>
-                      </>
+                      return (
+                        <>
+                          <p style={{ margin: "unset" }}>
+                            <b>จุดเริ่มต้น : </b>
+                            {JSON.parse(viewDetail.mapdata)["start"]}
+                          </p>
+                          <p style={{ margin: "unset" }}>
+                            <b>จุดสิ้นสุด : </b>
+                            {JSON.parse(viewDetail.mapdata)["end"]}
+                          </p>
+                          <p style={{ margin: "unset" }}>
+                            <b>ระยะทาง : </b>
+                            {JSON.parse(viewDetail.mapdata)["distance"]}
+                          </p>
+                          <p style={{ margin: "unset" }}>
+                            <b>ระยะเวลาการเดินทาง : </b>
+                            {JSON.parse(viewDetail.mapdata)["time"]}
+                          </p>
+                          <p style={{ margin: "unset" }}>
+                            <b>ค่าใช้จ่ายโดยประมาณ : </b>
+                            {JSON.parse(viewDetail.mapdata)["cost"]}
+                          </p>
+                        </>
+                      );
                     }
-                    return null
+                    return null;
                   })()}
-
-
                 </div>
               </div>
             </div>

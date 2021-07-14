@@ -27,7 +27,9 @@ const Admin = (props) => {
           //   [...val.data.result.result].filter((e) => e.mystep == "2")
           // );
           setListRequest(
-            [...val.data.result.result].filter((e) => parseInt(e.mystep) >= 2)
+            [...val.data.result.result].filter(
+              (e) => parseInt(e.mystep) >= 2 && e.in_korat == "true"
+            )
           );
         } else {
           setListRequest([]);
@@ -74,7 +76,7 @@ const Admin = (props) => {
       <div className="box-padding">
         <div className="row">
           <div className="col-9 mb-3">
-            <h2>รายการขอใช้ยานพาหนะ</h2>
+            <h2>รายการขอใช้ยานพาหนะ (ในโคราช)</h2>
           </div>
           <div className="col-3 mb-3">
             <div className="text-right"></div>

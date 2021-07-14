@@ -232,8 +232,7 @@ const Dashboard = (props) => {
           icon: "fas fa-id-badge",
         },
       ]);
-    }
-    else if (props.userLogin.myrole == "7") {
+    } else if (props.userLogin.myrole == "7") {
       setMenuList([
         {
           pathname: "/home",
@@ -256,8 +255,7 @@ const Dashboard = (props) => {
           icon: "fas fa-id-badge",
         },
       ]);
-    }
-    else if (props.userLogin.myrole == "5") {
+    } else if (props.userLogin.myrole == "5") {
       setMenuList([
         {
           pathname: "/home",
@@ -474,7 +472,7 @@ const Dashboard = (props) => {
                               fontWeight: "bold",
                             }}
                           >
-                            {"(แทนผู้อำนวยการกองกลาง)"}
+                            {"(แทนผู้มีอำนาจสั่งใช้ยานพาหนะ)"}
                           </span>
                         </>
                       )}
