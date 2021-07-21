@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import GGMap from "../../../components/GGmap";
+import GGMapDirection from "../../../components/GGMapDirection";
 
 const FormRequest = (props) => {
   // console.log("props -> ", props);
@@ -603,6 +604,14 @@ const FormRequest = (props) => {
                               </div>
                             </div>
                           </div>
+
+                          {(()=>{
+                            if(JSON.parse(mapData)["location"]){
+                              return <div className="mb-3">
+                                <GGMapDirection {...props} location={JSON.parse(mapData)["location"]}/>
+                              </div>
+                            }
+                          })()}
 
                           <p style={{ margin: "unset" }}><b>จุดเริ่มต้น : </b>{JSON.parse(mapData)['start']}</p>
                           <p style={{ margin: "unset" }}><b>จุดสิ้นสุด : </b>{JSON.parse(mapData)['end']}</p>

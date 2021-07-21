@@ -10,6 +10,7 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import Month from "../../../components/month";
 import GGMap from "../../../components/GGmap";
+import GGMapDirection from "../../../components/GGMapDirection";
 
 pdfMake.fonts = {
   THSarabun: {
@@ -1093,6 +1094,14 @@ const Admin = (props) => {
                     if (viewDetail) {
                       return (
                         <>
+                          {(()=>{
+                            if(JSON.parse(viewDetail.mapdata)["location"]){
+                              return <div className="mb-3">
+                                <GGMapDirection {...props} location={JSON.parse(viewDetail.mapdata)["location"]}/>
+                              </div>
+                            }
+                          })()}
+
                           <p style={{ margin: "unset" }}>
                             <b>จุดเริ่มต้น : </b>
                             {JSON.parse(viewDetail.mapdata)["start"]}

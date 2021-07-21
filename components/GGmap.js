@@ -95,6 +95,7 @@ const GGMap = (props) => {
     console.log(mapData);
     if (mapData.length > 0) {
       props.dataGGmap && props.dataGGmap({
+        location:{start : mapData[0].bounds['lc'], end : mapData[0].bounds['Eb']},
         start: mapData[0].legs[0].start_address,
         end: mapData[0].legs[0].end_address,
         distance: mapData[0].legs[0].distance.text,

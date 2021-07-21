@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Dashboard from "../../../components/Dashboard";
 import FormRequest from "./formRequest";
 import axios from "axios";
+import GGMapDirection from "../../../components/GGMapDirection";
 
 const defaultRequest = {
   id: "",
@@ -186,7 +187,7 @@ const Admin = (props) => {
         aria-labelledby="exampleViewDetailModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog">
+        <div className="modal-dialog  modal-xl">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleViewDetailModalLabel">
@@ -205,7 +206,8 @@ const Admin = (props) => {
               {(() => {
                 if (viewDetail) {
                   return (
-                    <>
+                    <div className="row">
+                      <div className="col-md-6">
                       <h6>
                         <b>เหตุผลการขอใช้ยานพาหนะ : </b>
                         {viewDetail.reason}
@@ -292,7 +294,24 @@ const Admin = (props) => {
                           }
                         })()}
                       </div>
-                    </>
+                      </div>
+
+                      <div className="col-md-6">
+                      {(()=>{
+                            if(JSON.parse(viewDetail.mapdata)["location"]){
+                              return <div className="mb-3">
+                                <GGMapDirection {...props} location={JSON.parse(viewDetail.mapdata)["location"]}/>
+                              </div>
+                            }
+                          })()}
+
+                          <p style={{ margin: "unset" }}><b>จุดเริ่มต้น : </b>{JSON.parse(viewDetail.mapdata)['start']}</p>
+                          <p style={{ margin: "unset" }}><b>จุดสิ้นสุด : </b>{JSON.parse(viewDetail.mapdata)['end']}</p>
+                          <p style={{ margin: "unset" }}><b>ระยะทาง : </b>{JSON.parse(viewDetail.mapdata)['distance']}</p>
+                          <p style={{ margin: "unset" }}><b>ระยะเวลาการเดินทาง : </b>{JSON.parse(viewDetail.mapdata)['time']}</p>
+                          <p style={{ margin: "unset" }}><b>ค่าใช้จ่ายโดยประมาณ : </b>{JSON.parse(viewDetail.mapdata)['cost']}</p>
+                      </div>
+                    </div>
                   );
                 }
               })()}
