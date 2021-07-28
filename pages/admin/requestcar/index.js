@@ -1018,7 +1018,7 @@ const Admin = (props) => {
                             },
                           },
                           {
-                            image: `user_signature`,
+                            image: `signature_3`,
                             width: 100,
                             alignment: "center",
                           },
@@ -1094,11 +1094,18 @@ const Admin = (props) => {
                     if (viewDetail) {
                       return (
                         <>
-                          {(()=>{
-                            if(JSON.parse(viewDetail.mapdata)["location"]){
-                              return <div className="mb-3">
-                                <GGMapDirection {...props} location={JSON.parse(viewDetail.mapdata)["location"]}/>
-                              </div>
+                          {(() => {
+                            if (JSON.parse(viewDetail.mapdata)["location"]) {
+                              return (
+                                <div className="mb-3">
+                                  <GGMapDirection
+                                    {...props}
+                                    location={
+                                      JSON.parse(viewDetail.mapdata)["location"]
+                                    }
+                                  />
+                                </div>
+                              );
                             }
                           })()}
 
