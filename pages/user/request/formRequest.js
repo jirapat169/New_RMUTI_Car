@@ -7,17 +7,18 @@ import GGMapDirection from "../../../components/GGMapDirection";
 
 const FormRequest = (props) => {
   // console.log("props -> ", props);
+  console.log(props.onInsertRequest);
   const lsST = props.onInsertRequest
     ? ""
     : `${props.defaultValue.list_student}`.length > 0
-      ? `${props.defaultValue.list_student}`.split(",")
-      : [];
+    ? `${props.defaultValue.list_student}`.split(",")
+    : [];
 
   const lsTA = props.onInsertRequest
     ? ""
     : `${props.defaultValue.list_teacher}`.length > 0
-      ? `${props.defaultValue.list_teacher}`.split(",")
-      : [];
+    ? `${props.defaultValue.list_teacher}`.split(",")
+    : [];
 
   const { control, handleSubmit, reset, setValue } = useForm(
     props.defaultValue
@@ -45,9 +46,15 @@ const FormRequest = (props) => {
 
   const onSubmit = (data) => {
     if (mapData.length <= 0) {
-      alert("โปรดคำนวนค่าใช้จ่าย")
-      return
+      alert("โปรดคำนวนค่าใช้จ่าย");
+      return;
     }
+
+    if (`${doc1}`.length <= 0 || `${doc2}`.length <= 0) {
+      alert("โปรดแนบเอกสารให้ครบถ้วน");
+      return;
+    }
+
     let tmp = {
       id: props.onInsertRequest ? "" : props.defaultValue.id,
       insertStatus: props.onInsertRequest,
@@ -56,7 +63,7 @@ const FormRequest = (props) => {
       doc1: doc1,
       doc2: doc2,
       username: props.userLogin.username,
-      mapdata: mapData
+      mapdata: mapData,
     };
     data = { ...data, ...tmp };
 
@@ -66,7 +73,7 @@ const FormRequest = (props) => {
         // console.log(val.data);
         props.getRequest();
         window.$(`#formCarModal`).modal("hide");
-        window.location.reload()
+        window.location.reload();
       })
       .catch((reason) => {
         console.log(reason);
@@ -74,7 +81,7 @@ const FormRequest = (props) => {
   };
 
   React.useEffect(() => {
-    setMapData(props.defaultValue.mapdata)
+    setMapData(props.defaultValue.mapdata);
     setDefaultValue(props.defaultValue);
     setListTeacher(props.onInsertRequest ? [] : lsTA.map((e, i) => i));
     setListStudent(props.onInsertRequest ? [] : lsST.map((e, i) => i));
@@ -289,6 +296,7 @@ const FormRequest = (props) => {
                             type="checkbox"
                             checked={defaultValue.in_korat == "true"}
                             value={value}
+                            disabled={!props.onInsertRequest}
                             onChange={(e) => {
                               e.target.value = `${e.target.checked}`;
                               onChange(e);
@@ -585,43 +593,75 @@ const FormRequest = (props) => {
                   <div className="col-md-12">
                     {(() => {
                       if (mapData.length <= 0) {
-                        return <GGMap {...props} dataGGmap={(e) => {
-                          setMapData(JSON.stringify(e))
-                        }} />
+                        return (
+                          <GGMap
+                            {...props}
+                            dataGGmap={(e) => {
+                              setMapData(JSON.stringify(e));
+                            }}
+                          />
+                        );
                       } else {
-                        return <div>
-                          <div className="row">
-                            <div className="col-6 mb-3">
-                              <div className="row">
-                                <div className="col-6">
-                                  <h5>คำนวนค่าใช้จ่าย</h5>
-                                </div>
-                                <div className="col-6 text-right">
-                                  <button type="button" className="btn btn-warning btn-sm" onClick={() => {
-                                    setMapData("")
-                                  }}>แก้ไข</button>
+                        return (
+                          <div>
+                            <div className="row">
+                              <div className="col-6 mb-3">
+                                <div className="row">
+                                  <div className="col-6">
+                                    <h5>คำนวนค่าใช้จ่าย</h5>
+                                  </div>
+                                  <div className="col-6 text-right">
+                                    <button
+                                      type="button"
+                                      className="btn btn-warning btn-sm"
+                                      onClick={() => {
+                                        setMapData("");
+                                      }}
+                                    >
+                                      แก้ไข
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
+
+                            {(() => {
+                              if (JSON.parse(mapData)["location"]) {
+                                return (
+                                  <div className="mb-3">
+                                    <GGMapDirection
+                                      {...props}
+                                      location={JSON.parse(mapData)["location"]}
+                                    />
+                                  </div>
+                                );
+                              }
+                            })()}
+
+                            <p style={{ margin: "unset" }}>
+                              <b>จุดเริ่มต้น : </b>
+                              {JSON.parse(mapData)["start"]}
+                            </p>
+                            <p style={{ margin: "unset" }}>
+                              <b>จุดสิ้นสุด : </b>
+                              {JSON.parse(mapData)["end"]}
+                            </p>
+                            <p style={{ margin: "unset" }}>
+                              <b>ระยะทาง : </b>
+                              {JSON.parse(mapData)["distance"]}
+                            </p>
+                            <p style={{ margin: "unset" }}>
+                              <b>ระยะเวลาการเดินทาง : </b>
+                              {JSON.parse(mapData)["time"]}
+                            </p>
+                            <p style={{ margin: "unset" }}>
+                              <b>ค่าใช้จ่ายโดยประมาณ : </b>
+                              {JSON.parse(mapData)["cost"]}
+                            </p>
                           </div>
-
-                          {(()=>{
-                            if(JSON.parse(mapData)["location"]){
-                              return <div className="mb-3">
-                                <GGMapDirection {...props} location={JSON.parse(mapData)["location"]}/>
-                              </div>
-                            }
-                          })()}
-
-                          <p style={{ margin: "unset" }}><b>จุดเริ่มต้น : </b>{JSON.parse(mapData)['start']}</p>
-                          <p style={{ margin: "unset" }}><b>จุดสิ้นสุด : </b>{JSON.parse(mapData)['end']}</p>
-                          <p style={{ margin: "unset" }}><b>ระยะทาง : </b>{JSON.parse(mapData)['distance']}</p>
-                          <p style={{ margin: "unset" }}><b>ระยะเวลาการเดินทาง : </b>{JSON.parse(mapData)['time']}</p>
-                          <p style={{ margin: "unset" }}><b>ค่าใช้จ่ายโดยประมาณ : </b>{JSON.parse(mapData)['cost']}</p>
-                        </div>
+                        );
                       }
                     })()}
-
                   </div>
                 </div>
               </div>

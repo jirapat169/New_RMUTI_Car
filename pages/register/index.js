@@ -4,10 +4,12 @@ import { useForm, Controller } from "react-hook-form";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import Link from "next/link";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const Register = (props) => {
   const router = useRouter();
   const { control, handleSubmit, reset } = useForm();
+  const [prefix, setPrefix] = React.useState([]);
 
   const onSubmit = (data) => {
     if (data.password !== data.c_password) {
@@ -38,7 +40,25 @@ const Register = (props) => {
       });
   };
 
-  React.useEffect(() => {}, []);
+  const getPrefixname = () => {
+    axios
+      .get(`${props.env.api_url}getPrefixname`)
+      .then((value) => {
+        console.log(value.data);
+        if (value.data.rowCount > 0) {
+          setPrefix(value.data.result);
+        } else {
+          result([]);
+        }
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+  };
+
+  React.useEffect(() => {
+    getPrefixname();
+  }, []);
 
   return (
     <div className="container">
@@ -71,7 +91,7 @@ const Register = (props) => {
                   />
                 )}
               />
-
+              {/* 
               <Controller
                 control={control}
                 name="prename"
@@ -86,6 +106,33 @@ const Register = (props) => {
                     required
                     fullWidth
                   />
+                )}
+              /> */}
+
+              <Controller
+                control={control}
+                name="prename"
+                defaultValue={""}
+                render={({ field, value, onChange }) => (
+                  <TextField
+                    {...field}
+                    label="คำนำหน้า"
+                    value={value}
+                    select
+                    onChange={onChange}
+                    margin="normal"
+                    required
+                    fullWidth
+                  >
+                    <MenuItem value={""}>--- โปรดเลือก ---</MenuItem>
+                    {prefix.map((e, i) => {
+                      return (
+                        <MenuItem value={e.prefix} key={i}>
+                          {e.prefix}
+                        </MenuItem>
+                      );
+                    })}
+                  </TextField>
                 )}
               />
 
