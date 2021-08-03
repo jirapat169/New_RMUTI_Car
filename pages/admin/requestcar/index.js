@@ -60,6 +60,7 @@ const Admin = (props) => {
 
   const [stateRequest, setRequest] = React.useState(true);
 
+  const [reasonMessage, setReasonMessage] = React.useState("");
   const [request, setListRequest] = React.useState([]);
   const [selectRequest, setSelectRequest] = React.useState({});
   const [listCD, setListCD] = React.useState({ car: [], driver: [] });
@@ -159,6 +160,31 @@ const Admin = (props) => {
       .catch((reason) => {
         console.log(reason);
       });
+  };
+
+  const cancelRequest = () => {
+    let data = {
+      step: "1",
+      insertStatus: false,
+      id_request: selectRequest.id,
+      car_step_username: props.userLogin.username,
+      car_step_status: "0",
+      car_step_reason: reasonMessage,
+    };
+
+    // console.log(data);
+    if (confirm("ยืนยันการยกเลิก")) {
+      axios
+        .post(`${props.env.api_url}requestcar/managestep`, JSON.stringify(data))
+        .then((val) => {
+          // console.log(val.data);
+          window.location.reload();
+          // getRequest();
+        })
+        .catch((reason) => {
+          console.log(reason);
+        });
+    }
   };
 
   return (
@@ -332,32 +358,11 @@ const Admin = (props) => {
                     <button
                       type="button"
                       className="btn btn-danger btn-sm ml-2"
+                      data-toggle="modal"
+                      data-target="#exampleModalCancle"
                       disabled={e.mystep == "5"}
                       onClick={() => {
-                        let data = {
-                          step: "1",
-                          insertStatus: false,
-                          id_request: e.id,
-                          car_step_username: props.userLogin.username,
-                          car_step_status: "0",
-                          car_step_reason: "ยกเลิกการจอง",
-                        };
-
-                        // console.log(data);
-                        if (confirm("ยืนยันการยกเลิก")) {
-                          axios
-                            .post(
-                              `${props.env.api_url}requestcar/managestep`,
-                              JSON.stringify(data)
-                            )
-                            .then((val) => {
-                              console.log(val.data);
-                              getRequest();
-                            })
-                            .catch((reason) => {
-                              console.log(reason);
-                            });
-                        }
+                        setSelectRequest(e);
                       }}
                     >
                       ยกเลิกการขอใช้
@@ -368,6 +373,71 @@ const Admin = (props) => {
             })}
           </tbody>
         </table>
+      </div>
+
+      {/* <!-- Modal Cancle Request --> */}
+      <div
+        className="modal fade"
+        id="exampleModalCancle"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                ยกเลิกการขอใช้
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label htmlFor="exampleFormControlTextarea1Cancle">
+                  เหตุผลการยกเลิก
+                </label>
+                <textarea
+                  className="form-control"
+                  id="exampleFormControlTextarea1Cancle"
+                  onKeyUp={(e) => {
+                    e.preventDefault();
+                    setReasonMessage(e.target.value);
+                    if (e.keyCode === 13 && reasonMessage.length > 0) {
+                      cancelRequest();
+                    }
+                  }}
+                  rows="3"
+                ></textarea>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                ยกเลิก
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                disabled={reasonMessage.length <= 0}
+                onClick={() => {
+                  cancelRequest();
+                }}
+              >
+                ยืนยันการยกเลิก
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* <!-- Modal --> */}
@@ -1128,6 +1198,7 @@ const Admin = (props) => {
                           <p style={{ margin: "unset" }}>
                             <b>ค่าใช้จ่ายโดยประมาณ : </b>
                             {JSON.parse(viewDetail.mapdata)["cost"]}
+                            <b>&nbsp;บาท</b>
                           </p>
                         </>
                       );

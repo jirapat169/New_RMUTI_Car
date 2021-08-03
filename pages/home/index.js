@@ -26,19 +26,22 @@ const Home = (props) => {
         console.log(val.data);
         if (val.data.result.rowCount > 0) {
           let eventsData = [];
-          if (`${props.userLogin.myrole}` == "5") {
-            eventsData = [...val.data.result.result]
-              .filter(
-                (e) => e.mystep == "1" || e.mystep == "2" || e.mystep == "3"
-              )
-              .filter(
-                (ee) => `${ee.user_driver}` == `${props.userLogin.username}`
-              );
-          } else {
-            eventsData = [...val.data.result.result].filter(
-              (e) => e.mystep == "1" || e.mystep == "2" || e.mystep == "3"
-            );
-          }
+          // if (`${props.userLogin.myrole}` == "5") {
+          //   eventsData = [...val.data.result.result]
+          //     .filter(
+          //       (e) => e.mystep == "1" || e.mystep == "2" || e.mystep == "3"
+          //     )
+          //     .filter(
+          //       (ee) => `${ee.user_driver}` == `${props.userLogin.username}`
+          //     );
+          // } else {
+          //   eventsData = [...val.data.result.result].filter(
+          //     (e) => e.mystep == "1" || e.mystep == "2" || e.mystep == "3"
+          //   );
+          // }
+          eventsData = [...val.data.result.result].filter(
+            (e) => e.mystep != "5"
+          );
 
           eventsData = eventsData.map((e) => {
             return {
