@@ -39,9 +39,7 @@ const Home = (props) => {
           //     (e) => e.mystep == "1" || e.mystep == "2" || e.mystep == "3"
           //   );
           // }
-          eventsData = [...val.data.result.result].filter(
-            (e) => e.mystep != "5"
-          );
+          eventsData = [...val.data.result.result];
 
           eventsData = eventsData.map((e) => {
             return {
@@ -50,7 +48,12 @@ const Home = (props) => {
               title: e.reason,
               data: { ...e },
               color:
-                colorList[Math.floor(Math.random() * colorList.length - 1)],
+                `${e.mystep}` == "5"
+                  ? "#F8D7DA"
+                  : `${e.mystep}` == "4"
+                  ? "#D4EDDA"
+                  : "#FFF3CD",
+              // colorList[Math.floor(Math.random() * colorList.length - 1)],
             };
           });
 
