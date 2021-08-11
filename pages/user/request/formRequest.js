@@ -7,7 +7,7 @@ import GGMapDirection from "../../../components/GGMapDirection";
 
 const FormRequest = (props) => {
   // console.log("props -> ", props);
-  console.log(props.onInsertRequest);
+  // console.log(props.onInsertRequest);
   const lsST = props.onInsertRequest
     ? ""
     : `${props.defaultValue.list_student}`.length > 0
@@ -67,12 +67,14 @@ const FormRequest = (props) => {
     };
     data = { ...data, ...tmp };
 
+    console.log(data);
+
     axios
       .post(`${props.env.api_url}requestcar/request`, JSON.stringify(data))
       .then((val) => {
-        // console.log(val.data);
+        console.log(val.data);
         props.getRequest();
-        window.$(`#formCarModal`).modal("hide");
+        // window.$(`#formCarModal`).modal("hide");
         window.location.reload();
       })
       .catch((reason) => {
@@ -154,6 +156,23 @@ const FormRequest = (props) => {
                       render={({ field, value, onChange }) => (
                         <TextField
                           {...field}
+                          label="สังกัด"
+                          onChange={onChange}
+                          value={value}
+                          margin="normal"
+                          required
+                          fullWidth
+                        />
+                      )}
+                      control={control}
+                      name="affiliation"
+                      defaultValue={defaultValue.affiliation}
+                    />
+
+                    <Controller
+                      render={({ field, value, onChange }) => (
+                        <TextField
+                          {...field}
                           label="สถานที่"
                           onChange={onChange}
                           value={value}
@@ -220,7 +239,7 @@ const FormRequest = (props) => {
                     <Controller
                       render={({ field, value, onChange }) => (
                         <TextField
-                          id="time"
+                          id="time1"
                           label="เวลานำยานพาหนะออกใช้งาน"
                           type="time"
                           onChange={(e) => {
@@ -247,7 +266,7 @@ const FormRequest = (props) => {
                     <Controller
                       render={({ field, value, onChange }) => (
                         <TextField
-                          id="time"
+                          id="time2"
                           label="เวลานำยานพาหนะส่งคืน"
                           type="time"
                           onChange={onChange}
@@ -296,7 +315,6 @@ const FormRequest = (props) => {
                             type="checkbox"
                             checked={defaultValue.in_korat == "true"}
                             value={value}
-                            disabled={!props.onInsertRequest}
                             onChange={(e) => {
                               e.target.value = `${e.target.checked}`;
                               onChange(e);

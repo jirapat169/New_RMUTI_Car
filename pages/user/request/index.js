@@ -7,6 +7,7 @@ import GGMapDirection from "../../../components/GGMapDirection";
 
 const defaultRequest = {
   id: "",
+  affiliation: "",
   reason: "",
   location: "",
   in_korat: "",
@@ -35,15 +36,33 @@ const Admin = (props) => {
   const [reasonMessage, setReasonMessage] = React.useState("");
 
   const getRequest = () => {
+    // axios
+    //   .post(
+    //     `${props.env.api_url}requestcar/getmyrequest`,
+    //     JSON.stringify({ username: props.userLogin.username })
+    //   )
+    //   .then((val) => {
+    //     console.log(val.data);
+    //     if (val.data.result.rowCount > 0) {
+    //       setListRequest(val.data.result.result);
+    //     } else {
+    //       setListRequest([]);
+    //     }
+    //   })
+    //   .catch((reason) => {
+    //     console.log(reason);
+    //   });
+
     axios
-      .post(
-        `${props.env.api_url}requestcar/getmyrequest`,
-        JSON.stringify({ username: props.userLogin.username })
-      )
+      .post(`${props.env.api_url}requestcar/getRequest`)
       .then((val) => {
         console.log(val.data);
         if (val.data.result.rowCount > 0) {
-          setListRequest(val.data.result.result);
+          setListRequest(
+            val.data.result.result.filter(
+              (e) => e.username == `${props.userLogin.username}`
+            )
+          );
         } else {
           setListRequest([]);
         }
@@ -114,8 +133,9 @@ const Admin = (props) => {
         <table className="table table-sm table-bordered">
           <thead>
             <tr>
+              <th scope="col">สังกัด</th>
               <th scope="col">วันที่ใช้รถ</th>
-              <th scope="col">เหตุผล</th>
+              <th scope="col">หมายเลขทะเบียนรถ</th>
               <th scope="col">สถานที่</th>
               <th scope="col">สถานะ</th>
               <th scope="col"></th>
@@ -125,10 +145,13 @@ const Admin = (props) => {
             {request.map((e, i) => {
               return (
                 <tr key={i}>
+                  <td style={{ verticalAlign: "middle" }}>{e.affiliation} </td>
                   <td style={{ verticalAlign: "middle" }}>
                     {e.date_start} - {e.date_end}
                   </td>
-                  <td style={{ verticalAlign: "middle" }}>{e.reason} </td>
+                  <td style={{ verticalAlign: "middle" }}>
+                    {e.c_registration_number}
+                  </td>
                   <td style={{ verticalAlign: "middle" }}>{e.location} </td>
                   <td style={{ verticalAlign: "middle" }}>
                     {e.mystep == "0"
@@ -143,7 +166,7 @@ const Admin = (props) => {
                       ? "ผ่านอนุมัติ"
                       : e.mystep == "4"
                       ? "ส่งคืนยานพาหนะสำเร็จ"
-                      : e.mystep}{" "}
+                      : e.mystep}
                   </td>
                   <td style={{ verticalAlign: "middle" }}>
                     <button
@@ -306,6 +329,14 @@ const Admin = (props) => {
                     <div className="row">
                       <div className="col-md-6">
                         <h6>
+                          <b>ชื่อผู้ขอใช้ : </b>
+                          {viewDetail.user_request_name}
+                        </h6>
+                        <h6>
+                          <b>สังกัด : </b>
+                          {viewDetail.affiliation}
+                        </h6>
+                        <h6>
                           <b>เหตุผลการขอใช้ยานพาหนะ : </b>
                           {viewDetail.reason}
                         </h6>
@@ -323,7 +354,11 @@ const Admin = (props) => {
                             {`${viewDetail.list_teacher}`
                               .split(",")
                               .map((e, i) => {
-                                return <li key={i}>{e}</li>;
+                                return `${e}`.length > 0 ? (
+                                  <li key={i}>{e}</li>
+                                ) : (
+                                  ""
+                                );
                               })}
                           </ol>
                         </h6>
@@ -333,7 +368,11 @@ const Admin = (props) => {
                             {`${viewDetail.list_student}`
                               .split(",")
                               .map((e, i) => {
-                                return <li key={i}>{e}</li>;
+                                return `${e}`.length > 0 ? (
+                                  <li key={i}>{e}</li>
+                                ) : (
+                                  ""
+                                );
                               })}
                           </ol>
                         </h6>
@@ -348,6 +387,32 @@ const Admin = (props) => {
                         <h6>
                           <b>เวลากลับ : </b>
                           {viewDetail.car_end}
+                        </h6>
+
+                        <h6 className="mt-3">
+                          <b>สถานะ : </b>
+                          {viewDetail.mystep == "0"
+                            ? "รอการตรวจสอบจากเจ้าหน้าที่"
+                            : viewDetail.mystep == "5"
+                            ? "ยกเลิกการจอง"
+                            : viewDetail.mystep == "1"
+                            ? "รอการอนุมัติจากผู้อำนวยการกองกลาง"
+                            : viewDetail.mystep == "2"
+                            ? "รอการอนุมัติจากผู้มีอำนาจสั่งใช้ยานพาหนะ"
+                            : viewDetail.mystep == "3"
+                            ? "ผ่านอนุมัติ"
+                            : viewDetail.mystep == "4"
+                            ? "ส่งคืนยานพาหนะสำเร็จ"
+                            : viewDetail.mystep}
+                        </h6>
+                        <h6>
+                          <b>คนขับ : </b>
+                          {viewDetail.user_driver_name}
+                        </h6>
+                        <h6>
+                          <b>รถ : </b>
+                          {viewDetail.c_brand}{" "}
+                          {viewDetail.c_registration_number}
                         </h6>
                         <div className={"mb-3 mt-3"}>
                           {(() => {
