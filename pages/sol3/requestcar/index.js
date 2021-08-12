@@ -28,7 +28,7 @@ const Admin = (props) => {
           // );
           setListRequest(
             [...val.data.result.result].filter(
-              (e) => parseInt(e.mystep) >= 2 && e.in_korat != "true"
+              (e) => parseInt(e.mystep) >= 2 && e.in_korat == "false"
             )
           );
         } else {
