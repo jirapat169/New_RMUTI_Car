@@ -5,6 +5,7 @@ import axios from "axios";
 import { useForm, Controller } from "react-hook-form";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
+import GGMapDirection from "../../../components/GGMapDirection";
 
 const Admin = (props) => {
   const router = useRouter();
@@ -331,7 +332,7 @@ const Admin = (props) => {
         aria-labelledby="exampleViewDetailModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog">
+        <div className="modal-dialog  modal-xl">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleViewDetailModalLabel">
@@ -350,94 +351,177 @@ const Admin = (props) => {
               {(() => {
                 if (viewDetail) {
                   return (
-                    <>
-                      <h6>
-                        <b>เหตุผลการขอใช้ยานพาหนะ : </b>
-                        {viewDetail.reason}
-                      </h6>
-                      <h6>
-                        <b>สถานที่ : </b>
-                        {viewDetail.location}
-                      </h6>
-                      <h6>
-                        <b>จำนวนผู้ร่วมเดินทาง : </b>
-                        {viewDetail.count_people}
-                      </h6>
-                      <h6>
-                        <b>อาจารย์/เจ้าหน้าที่ : </b>
-                        <ol style={{ margin: "unset" }}>
-                          {`${viewDetail.list_teacher}`
-                            .split(",")
-                            .map((e, i) => {
-                              return <li key={i}>{e}</li>;
-                            })}
-                        </ol>
-                      </h6>
-                      <h6>
-                        <b>นักศึกษา : </b>
-                        <ol style={{ margin: "unset" }}>
-                          {`${viewDetail.list_student}`
-                            .split(",")
-                            .map((e, i) => {
-                              return <li key={i}>{e}</li>;
-                            })}
-                        </ol>
-                      </h6>
-                      <h6>
-                        <b>ระหว่างวันที่ : </b>
-                        {viewDetail.date_start} ถึง {viewDetail.date_end}
-                      </h6>
-                      <h6>
-                        <b>เวลาออกรถ : </b>
-                        {viewDetail.car_start}
-                      </h6>
-                      <h6>
-                        <b>เวลากลับ : </b>
-                        {viewDetail.car_end}
-                      </h6>
-                      <div className={"mb-3 mt-3"}>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <h6>
+                          <b>ชื่อผู้ขอใช้ : </b>
+                          {viewDetail.user_request_name}
+                        </h6>
+                        <h6>
+                          <b>สังกัด : </b>
+                          {viewDetail.affiliation}
+                        </h6>
+                        <h6>
+                          <b>เหตุผลการขอใช้ยานพาหนะ : </b>
+                          {viewDetail.reason}
+                        </h6>
+                        <h6>
+                          <b>สถานที่ : </b>
+                          {viewDetail.location}
+                        </h6>
+                        <h6>
+                          <b>จำนวนผู้ร่วมเดินทาง : </b>
+                          {viewDetail.count_people}
+                        </h6>
+                        <h6>
+                          <b>อาจารย์/เจ้าหน้าที่ : </b>
+                          <ol style={{ margin: "unset" }}>
+                            {`${viewDetail.list_teacher}`
+                              .split(",")
+                              .map((e, i) => {
+                                return `${e}`.length > 0 ? (
+                                  <li key={i}>{e}</li>
+                                ) : (
+                                  ""
+                                );
+                              })}
+                          </ol>
+                        </h6>
+                        <h6>
+                          <b>นักศึกษา : </b>
+                          <ol style={{ margin: "unset" }}>
+                            {`${viewDetail.list_student}`
+                              .split(",")
+                              .map((e, i) => {
+                                return `${e}`.length > 0 ? (
+                                  <li key={i}>{e}</li>
+                                ) : (
+                                  ""
+                                );
+                              })}
+                          </ol>
+                        </h6>
+                        <h6>
+                          <b>ระหว่างวันที่ : </b>
+                          {viewDetail.date_start} ถึง {viewDetail.date_end}
+                        </h6>
+                        <h6>
+                          <b>เวลาออกรถ : </b>
+                          {viewDetail.car_start}
+                        </h6>
+                        <h6>
+                          <b>เวลากลับ : </b>
+                          {viewDetail.car_end}
+                        </h6>
+
+                        <h6 className="mt-3">
+                          <b>สถานะ : </b>
+                          {viewDetail.mystep == "0"
+                            ? "รอการตรวจสอบจากเจ้าหน้าที่"
+                            : viewDetail.mystep == "5"
+                            ? "ยกเลิกการจอง"
+                            : viewDetail.mystep == "1"
+                            ? "รอการอนุมัติจากผู้อำนวยการกองกลาง"
+                            : viewDetail.mystep == "2"
+                            ? "รอการอนุมัติจากผู้มีอำนาจสั่งใช้ยานพาหนะ"
+                            : viewDetail.mystep == "3"
+                            ? "ผ่านอนุมัติ"
+                            : viewDetail.mystep == "4"
+                            ? "ส่งคืนยานพาหนะสำเร็จ"
+                            : viewDetail.mystep}
+                        </h6>
+                        <h6>
+                          <b>คนขับ : </b>
+                          {viewDetail.user_driver_name}
+                        </h6>
+                        <h6>
+                          <b>รถ : </b>
+                          {viewDetail.c_brand}{" "}
+                          {viewDetail.c_registration_number}
+                        </h6>
+                        <div className={"mb-3 mt-3"}>
+                          {(() => {
+                            if (`${viewDetail.doc1}`.length > 0) {
+                              return (
+                                <a
+                                  href={viewDetail.doc1}
+                                  download="เอกสารอนุมัติไปราชการ.pdf"
+                                >
+                                  <i className="fas fa-file-powerpoint"></i>{" "}
+                                  เอกสารอนุมัติไปราชการ
+                                </a>
+                              );
+                            } else {
+                              return (
+                                <b className="text-danger">
+                                  ไม่พบเอกสารอนุมัติไปราชการ
+                                </b>
+                              );
+                            }
+                          })()}
+                        </div>
+                        <div>
+                          {(() => {
+                            if (`${viewDetail.doc2}`.length > 0) {
+                              return (
+                                <a
+                                  href={viewDetail.doc2}
+                                  download="เอกสารอนุญาติให้ใช้ยานพาหนะ.pdf"
+                                >
+                                  <i className="fas fa-file-powerpoint"></i>{" "}
+                                  เอกสารอนุญาติให้ใช้ยานพาหนะ
+                                </a>
+                              );
+                            } else {
+                              return (
+                                <b className="text-danger">
+                                  ไม่พบเอกสารอนุญาติให้ใช้ยานพาหนะ
+                                </b>
+                              );
+                            }
+                          })()}
+                        </div>
+                      </div>
+
+                      <div className="col-md-6">
                         {(() => {
-                          if (`${viewDetail.doc1}`.length > 0) {
+                          if (JSON.parse(viewDetail.mapdata)["location"]) {
                             return (
-                              <a
-                                href={viewDetail.doc1}
-                                download="เอกสารอนุมัติไปราชการ.pdf"
-                              >
-                                <i className="fas fa-file-powerpoint"></i>{" "}
-                                เอกสารอนุมัติไปราชการ
-                              </a>
-                            );
-                          } else {
-                            return (
-                              <b className="text-danger">
-                                ไม่พบเอกสารอนุมัติไปราชการ
-                              </b>
+                              <div className="mb-3">
+                                <GGMapDirection
+                                  {...props}
+                                  location={
+                                    JSON.parse(viewDetail.mapdata)["location"]
+                                  }
+                                />
+                              </div>
                             );
                           }
                         })()}
+
+                        <p style={{ margin: "unset" }}>
+                          <b>จุดเริ่มต้น : </b>
+                          {JSON.parse(viewDetail.mapdata)["start"]}
+                        </p>
+                        <p style={{ margin: "unset" }}>
+                          <b>จุดสิ้นสุด : </b>
+                          {JSON.parse(viewDetail.mapdata)["end"]}
+                        </p>
+                        <p style={{ margin: "unset" }}>
+                          <b>ระยะทาง : </b>
+                          {JSON.parse(viewDetail.mapdata)["distance"]}
+                        </p>
+                        <p style={{ margin: "unset" }}>
+                          <b>ระยะเวลาการเดินทาง : </b>
+                          {JSON.parse(viewDetail.mapdata)["time"]}
+                        </p>
+                        <p style={{ margin: "unset" }}>
+                          <b>ค่าใช้จ่ายโดยประมาณ : </b>
+                          {JSON.parse(viewDetail.mapdata)["cost"]}
+                          <b>&nbsp;บาท</b>
+                        </p>
                       </div>
-                      <div>
-                        {(() => {
-                          if (`${viewDetail.doc2}`.length > 0) {
-                            return (
-                              <a
-                                href={viewDetail.doc2}
-                                download="เอกสารอนุญาติให้ใช้ยานพาหนะ.pdf"
-                              >
-                                <i className="fas fa-file-powerpoint"></i>{" "}
-                                เอกสารอนุญาติให้ใช้ยานพาหนะ
-                              </a>
-                            );
-                          } else {
-                            return (
-                              <b className="text-danger">
-                                ไม่พบเอกสารอนุญาติให้ใช้ยานพาหนะ
-                              </b>
-                            );
-                          }
-                        })()}
-                      </div>
-                    </>
+                    </div>
                   );
                 }
               })()}
@@ -448,7 +532,7 @@ const Admin = (props) => {
                 className="btn btn-secondary"
                 data-dismiss="modal"
               >
-                Close
+                ปิด
               </button>
             </div>
           </div>
