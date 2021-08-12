@@ -73,8 +73,8 @@ const FormRequest = (props) => {
       .post(`${props.env.api_url}requestcar/request`, JSON.stringify(data))
       .then((val) => {
         console.log(val.data);
-        props.getRequest();
-        if (val.success) {
+        // props.getRequest();
+        if (val.data.success == true) {
           window.location.reload();
         } else {
           alert("ขนาดไฟล์ใหญ่เกินไป");
