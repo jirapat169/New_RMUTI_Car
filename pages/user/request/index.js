@@ -154,19 +154,35 @@ const Admin = (props) => {
                   </td>
                   <td style={{ verticalAlign: "middle" }}>{e.location} </td>
                   <td style={{ verticalAlign: "middle" }}>
-                    {e.mystep == "0"
-                      ? "รอการตรวจสอบจากเจ้าหน้าที่"
-                      : e.mystep == "5"
-                      ? "ยกเลิกการจอง"
-                      : e.mystep == "1"
-                      ? "รอการอนุมัติจากผู้อำนวยการกองกลาง"
-                      : e.mystep == "2"
-                      ? "รอการอนุมัติจากผู้มีอำนาจสั่งใช้ยานพาหนะ"
-                      : e.mystep == "3"
-                      ? "ผ่านอนุมัติ"
-                      : e.mystep == "4"
-                      ? "ส่งคืนยานพาหนะสำเร็จ"
-                      : e.mystep}
+                    {e.mystep == "0" ? (
+                      "รอการตรวจสอบจากเจ้าหน้าที่"
+                    ) : e.mystep == "5" ? (
+                      <span className="text-danger">ยกเลิกการจอง</span>
+                    ) : e.mystep == "1" ? (
+                      "รอการอนุมัติจากผู้อำนวยการกองกลาง"
+                    ) : e.mystep == "2" ? (
+                      "รอการอนุมัติจากผู้มีอำนาจสั่งใช้ยานพาหนะ"
+                    ) : e.mystep == "3" ? (
+                      "ผ่านอนุมัติ"
+                    ) : e.mystep == "4" ? (
+                      "ส่งคืนยานพาหนะสำเร็จ"
+                    ) : (
+                      e.mystep
+                    )}
+                    {e.mystep == "5" ? (
+                      <>
+                        <div>
+                          {e.step1_reason == null
+                            ? "ยกเลิกโดยผู้ขอใช้"
+                            : "ยกเลิกโดยเจ้าหน้าที่"}
+                        </div>
+                        <div>
+                          {e.step1_reason == null ? "" : e.step1_reason}
+                        </div>
+                      </>
+                    ) : (
+                      ""
+                    )}
                   </td>
                   <td style={{ verticalAlign: "middle" }}>
                     <button
