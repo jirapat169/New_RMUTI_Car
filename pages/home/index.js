@@ -52,7 +52,7 @@ const Home = (props) => {
               color:
                 `${e.mystep}` == "5"
                   ? "#F8D7DA"
-                  : `${e.mystep}` == "4"
+                  : `${e.mystep}` == "4" || `${e.mystep}` == "3"
                   ? "#D4EDDA"
                   : "#FFF3CD",
               // colorList[Math.floor(Math.random() * colorList.length - 1)],

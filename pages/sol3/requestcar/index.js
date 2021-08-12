@@ -134,10 +134,10 @@ const Admin = (props) => {
                     <button
                       type="button"
                       className="btn btn-warning btn-sm mr-2 ml-2"
-                      disabled={e.mystep != "1"}
+                      disabled={e.mystep != "2"}
                       onClick={() => {
                         let data = {
-                          step: "2",
+                          step: "3",
                           insertStatus: true,
                           id_request: e.id,
                           car_step_username: props.userLogin.username,
@@ -189,10 +189,10 @@ const Admin = (props) => {
                     <button
                       type="button"
                       className="btn btn-danger btn-sm ml-2"
-                      disabled={parseInt(e.mystep) >= 2}
+                      disabled={e.mystep != "2"}
                       onClick={() => {
                         let data = {
-                          step: "2",
+                          step: "3",
                           insertStatus: true,
                           id_request: e.id,
                           car_step_username: props.userLogin.username,
