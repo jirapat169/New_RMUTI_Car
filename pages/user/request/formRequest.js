@@ -74,8 +74,12 @@ const FormRequest = (props) => {
       .then((val) => {
         console.log(val.data);
         props.getRequest();
+        if (val.success) {
+          window.location.reload();
+        } else {
+          alert("ขนาดไฟล์ใหญ่เกินไป");
+        }
         // window.$(`#formCarModal`).modal("hide");
-        window.location.reload();
       })
       .catch((reason) => {
         console.log(reason);
