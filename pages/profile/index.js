@@ -4,11 +4,29 @@ import Dashboard from "../../components/Dashboard";
 import { useForm, Controller } from "react-hook-form";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const Profile = (props) => {
   const router = useRouter();
   const { control, handleSubmit, reset } = useForm(props.userLogin);
   const [signature, setSignature] = React.useState(props.userLogin.signature);
+  const [prefix, setPrefix] = React.useState([]);
+
+  const getPrefixname = () => {
+    axios
+      .get(`${props.env.api_url}getPrefixname`)
+      .then((value) => {
+        console.log(value.data);
+        if (value.data.rowCount > 0) {
+          setPrefix(value.data.result);
+        } else {
+          result([]);
+        }
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+  };
 
   const onSubmit = (data) => {
     let tmp = {
@@ -37,6 +55,7 @@ const Profile = (props) => {
   };
 
   React.useEffect(() => {
+    getPrefixname();
     reset(props.userLogin);
     setSignature(props.userLogin.signature);
     // router.replace("/home");
@@ -124,17 +143,27 @@ const Profile = (props) => {
               <Controller
                 control={control}
                 name="prename"
-                defaultValue={props.userLogin.prename}
+                defaultValue={""}
                 render={({ field, value, onChange }) => (
                   <TextField
                     {...field}
                     label="คำนำหน้า"
-                    onChange={onChange}
                     value={value}
+                    select
+                    onChange={onChange}
                     margin="normal"
                     required
                     fullWidth
-                  />
+                  >
+                    <MenuItem value={""}>--- โปรดเลือก ---</MenuItem>
+                    {prefix.map((e, i) => {
+                      return (
+                        <MenuItem value={e.prefix} key={i}>
+                          {e.prefix}
+                        </MenuItem>
+                      );
+                    })}
+                  </TextField>
                 )}
               />
 
