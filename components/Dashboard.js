@@ -263,6 +263,11 @@ const Dashboard = (props) => {
           icon: "fas fa-home",
         },
         {
+          pathname: "/driver/mywork",
+          title: "งานของฉัน",
+          icon: "fas fa-car",
+        },
+        {
           pathname: "/profile",
           title: "ข้อมูลส่วนตัว",
           icon: "fas fa-id-badge",
