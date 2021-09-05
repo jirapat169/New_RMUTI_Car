@@ -177,7 +177,7 @@ const Dashboard = (props) => {
         },
         {
           pathname: "/admin/static",
-          title: "สถิติการขอใช้ยานพาหนะ",
+          title: "สถิติการใช้ยานพาหนะ",
           icon: "fas fa-chart-area",
         },
         {
@@ -204,6 +204,11 @@ const Dashboard = (props) => {
           icon: "fas fa-user-tag",
         },
         {
+          pathname: "/admin/static",
+          title: "สถิติการใช้ยานพาหนะ",
+          icon: "fas fa-chart-area",
+        },
+        {
           pathname: "/profile",
           title: "ข้อมูลส่วนตัว",
           icon: "fas fa-id-badge",
@@ -227,6 +232,11 @@ const Dashboard = (props) => {
           icon: "fas fa-user-tag",
         },
         {
+          pathname: "/admin/static",
+          title: "สถิติการใช้ยานพาหนะ",
+          icon: "fas fa-chart-area",
+        },
+        {
           pathname: "/profile",
           title: "ข้อมูลส่วนตัว",
           icon: "fas fa-id-badge",
@@ -248,6 +258,11 @@ const Dashboard = (props) => {
           pathname: "/rolemanage",
           title: "จัดการผู้อนุมัติแทน",
           icon: "fas fa-user-tag",
+        },
+        {
+          pathname: "/admin/static",
+          title: "สถิติการใช้ยานพาหนะ",
+          icon: "fas fa-chart-area",
         },
         {
           pathname: "/profile",
