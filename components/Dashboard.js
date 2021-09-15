@@ -181,6 +181,11 @@ const Dashboard = (props) => {
           icon: "fas fa-chart-area",
         },
         {
+          pathname: "/admin/static_request",
+          title: "รายงานการขอใช้ยานพาหนะ",
+          icon: "fas fa-chart-area",
+        },
+        {
           pathname: "/profile",
           title: "ข้อมูลส่วนตัว",
           icon: "fas fa-id-badge",
