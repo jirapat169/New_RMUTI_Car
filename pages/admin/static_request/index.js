@@ -70,8 +70,10 @@ const Static = (props) => {
   const [filterOfMonth, setFilterOfMonth] = React.useState([]);
 
   const [listOfAffiliation, setListOfAffiliation] = React.useState([]);
-
   const [listOfLicensePlate, setListOfLicensePlate] = React.useState([]);
+  const [listCar, setListCar] = React.useState([]);
+  const [allYear, setAllYear] = React.useState([]);
+  const [yearSelect, setYearSelect] = React.useState("");
 
   const filterOfRequest = (key, value) => {
     return filterOfMonth.filter((el) => {
@@ -85,6 +87,7 @@ const Static = (props) => {
     let monthTMP = [];
     let tmpOfaffiliation = [];
     let tmpLicensePlate = [];
+    let tmpYear = [];
 
     axios
       .post(`${props.env.api_url}requestcar/getRequest`)
@@ -121,6 +124,13 @@ const Static = (props) => {
               })}`
             );
             // End Month
+
+            tmpYear.push(parseInt(dateTmp[0]) + 543);
+          });
+
+          setAllYear(() => {
+            let set = [...new Set(tmpYear)];
+            return set;
           });
 
           setListOfLicensePlate(() => {
@@ -146,8 +156,41 @@ const Static = (props) => {
       });
   };
 
+  const getCar = () => {
+    axios
+      .post(`${props.env.api_url}carstock/getCarStock`)
+      .then((value) => {
+        if (value.data.result.rowCount > 0) {
+          setListCar(value.data.result.result);
+          console.log(value.data.result.result);
+        } else {
+          setListCar([]);
+        }
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+  };
+
+  const filterCarInYear = (registration_number, month) => {
+    let tmp = [];
+    tmp = listOfRequest.filter((el, i) => {
+      let dateSplit = `${el.date_start}`.split("-").map((em) => parseInt(em));
+      return (
+        el.c_registration_number === `${registration_number}` &&
+        `${dateSplit[0]}` === `${yearSelect}` &&
+        `${dateSplit[1]}` === `${month + 1}`
+      );
+    });
+
+    return tmp.length > 0
+      ? tmp.length > 0 && tmp.reduce((a, b) => a + b.distance, 0)
+      : 0;
+  };
+
   React.useEffect(() => {
     getRequest();
+    getCar();
   }, []);
 
   return (
@@ -161,6 +204,7 @@ const Static = (props) => {
           >
             <Tab label="หน่วยงาน" {...a11yProps(0)} />
             <Tab label="ทะเบียนรถ" {...a11yProps(1)} />
+            <Tab label="ยานพาหนะ (รายปี)" {...a11yProps(2)} />
           </Tabs>
         </AppBar>
 
@@ -349,6 +393,81 @@ const Static = (props) => {
                 })}
               </tbody>
             </table>
+          </React.Fragment>
+        </TabPanel>
+
+        <TabPanel value={value} index={2}>
+          <React.Fragment>
+            <div className="row">
+              <div className="col-md-6 mb-3">
+                <h4>ยานพาหนะทั้งหมด</h4>
+                <p>รายปี</p>
+              </div>
+
+              <div className="col-md-6  mb-3">
+                <div className="form-group">
+                  <label htmlFor="exampleFormControlSelect1">ปี</label>
+                  <select
+                    className="form-control"
+                    id="exampleFormControlSelect1"
+                    defaultValue={selectOfMonth}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      console.log(e.target.value);
+                      setYearSelect(e.target.value);
+                    }}
+                  >
+                    <option value="">โปรดเลือกรายการ</option>
+                    {allYear.map((e, i) => {
+                      return (
+                        <option key={i} value={`${parseInt(e) - 543}`}>
+                          ปี {e}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <table className="table table-sm table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>หมายเลขทะเบียน</th>
+                    {month.map((el, i) => {
+                      return <th key={i}>{el}</th>;
+                    })}
+                  </tr>
+                </thead>
+                <tbody>
+                  {listCar.map((el, i) => {
+                    return (
+                      <tr key={i}>
+                        <td>{el.registration_number}</td>
+                        {month.map((elm, im) => {
+                          return (
+                            <td key={im}>
+                              {(() => {
+                                let dataCar = filterCarInYear(
+                                  el.registration_number,
+                                  im
+                                );
+                                if (dataCar > 0) {
+                                  return <b>{dataCar}</b>;
+                                } else {
+                                  return "-";
+                                }
+                              })()}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </React.Fragment>
         </TabPanel>
       </div>
